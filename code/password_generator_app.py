@@ -42,20 +42,21 @@ def save():
     }
 
     if len(website) == 0 or len(password) == 0:
-        messagebox.showinfo(title="Oops", message="Please make sure you haven't left any fields empty.")
+        messagebox.showinfo(
+            title="Oops", message="Please make sure you haven't left any fields empty.")
     else:
         try:
-            with open("Code\password.json", "r") as data_file:
+            with open("Code/password.json", "r") as data_file:
                 data = json.load(data_file)
         except FileNotFoundError:
-            with open("Code\password.json", "w") as data_file:
+            with open("Code/password.json", "w") as data_file:
                 json.dump(new_data, data_file, indent=4)
         except JSONDecodeError:
-            with open("Code\password.json", "w") as data_file:
+            with open("Code/password.json", "w") as data_file:
                 json.dump(new_data, data_file, indent=4)
         else:
             data.update(new_data)
-            with open("Code\password.json", "w") as data_file:
+            with open("Code/password.json", "w") as data_file:
                 json.dump(data, data_file, indent=4)
         finally:
             website_entry.delete(0, END)
@@ -66,7 +67,7 @@ def save():
 def find_password():
     website = website_entry.get()
     try:
-        with open("Code\password.json", "r") as data_file:
+        with open("Code/password.json", "r") as data_file:
             data = json.load(data_file)
     except FileNotFoundError:
         messagebox.showinfo(title="Error", message="File is not present")
@@ -74,9 +75,11 @@ def find_password():
         if website in data:
             email = data[website]["email"]
             password = data[website]["password"]
-            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+            messagebox.showinfo(
+                title=website, message=f"Email: {email}\nPassword: {password}")
         else:
-            messagebox.showinfo(title="Error", message=f"No details for {website} exists.")
+            messagebox.showinfo(
+                title="Error", message=f"No details for {website} exists.")
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -86,7 +89,7 @@ window.title("Password Manager")
 window.config(padx=50, pady=50)
 
 canvas = Canvas(height=200, width=200)
-logo_img = PhotoImage(file="Code\logo.png")
+logo_img = PhotoImage(file="code/logo.png")
 canvas.create_image(100, 100, image=logo_img)
 canvas.grid(row=0, column=1)
 
@@ -111,7 +114,8 @@ password_entry.grid(row=3, column=1, sticky="EW")
 # Buttons
 search_button = Button(text="Search", command=find_password)
 search_button.grid(row=1, column=2, sticky="EW")
-generate_password_button = Button(text="Generate Password", command=generate_password)
+generate_password_button = Button(
+    text="Generate Password", command=generate_password)
 generate_password_button.grid(row=3, column=2)
 add_button = Button(text="Add", width=36, command=save)
 add_button.grid(row=4, column=1, columnspan=2)
